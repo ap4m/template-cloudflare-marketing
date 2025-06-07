@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -35,6 +36,7 @@ const StyledBox = styled('div')(({ theme }) => ({
 }));
 
 export default function Hero() {
+  const [name, setName] = useState("unknown");
   return (
     <Box
       id="hero"
@@ -128,8 +130,13 @@ export default function Hero() {
               color="primary"
               size="small"
               sx={{ minWidth: 'fit-content' }}
+              onClick={() => {
+                fetch("/api/")
+                .then((res) => res.json() as Promise<{ name: string }>)
+                .then((data) => setName(data.name));
+              }}
             >
-              Start now
+              Name from API is: {name}
             </Button>
           </Stack>
           <Typography
